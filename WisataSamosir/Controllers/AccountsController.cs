@@ -1,6 +1,8 @@
 ﻿using API.Model;
 using API.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ using WisataSamosir.Repository.Data;
 
 namespace WisataSamosir.Controllers
 {
+    [Authorize]
     public class AccountsController : BaseController<Account, AccountRepository, int>
     {
        
@@ -44,9 +47,16 @@ namespace WisataSamosir.Controllers
             return Json(result);
         } 
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            ViewBag.Roles = HttpContext.Session.GetString("role");
+            ViewBag.JWToken = HttpContext.Session.GetString("JWToken");
+            if (User.Identity.IsAuthenticated)
+            {
+                return  View();
+
+            }
+            return RedirectToAction("");
         }
        
     }

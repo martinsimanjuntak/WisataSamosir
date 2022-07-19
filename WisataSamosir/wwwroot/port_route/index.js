@@ -1,34 +1,24 @@
-﻿console.log("Martin Berhasil")
-$.ajax({
-    url: '/PortRoutes/getAll'
-}).done(res => {
-    let htmlContent = "";
-    console.log(res)
+﻿(function () {
+    'use strict';
+    window.addEventListener('load', function () {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
 
-    $.each(res, (key, value) => {
-        console.log(key);
-        htmlContent +=
-            `<div class="col-xl-3 col-md-6 mt-5">
-                            <div class="card border-left-primary shadow h-100">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center mb-2">
-                                        <div class="col mr-2">
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${value.routeName}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                             <a href="/Schedules/schedule/${value.id}"><i class="fas fa-calendar fa-2x text-primary-300"></i></a>
-                                        </div>
-                                    </div>
-                                       <a href="#" onClick="Delete(${value.id})" class="mb-0"><i class="fas fa-pencil-alt text-warning mr-2"></i></a>
-                                       <a href="#" onClick="Delete(${value.id})" class="mb-0"><i class="fas fa-trash text-danger"></i></a>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>`
-    });
+                }
+                if (form.checkValidity() === true) {
+                    event.preventDefault();
+                    Add();
+                }
+                form.classList.add('was-validated');
 
-    $('#card_route').html(htmlContent)
-})
+            }, false);
+        });
+    }, false);
+})();
 
 function ModalAddRoute() {
     $("#route #SubmitUpdate").hide()
@@ -62,21 +52,13 @@ const Delete = (portRoute_id) => {
 function SubmitAddHarbor() {
     Add();
 }
-$.ajax({
-    url: 'https://localhost:44329/harbors/getall'
-}).done(res => {
-    let htmlContent = "<option selected disabled>...</option>";
-    $.each(res, (key, value) => {
-        htmlContent += `<option value="${res[key].id}">${res[key].harbor_Name}</option>`
-    });
-    $('#harbor_start').html(htmlContent)
-    $('#harbor_end').html(htmlContent)
-})
+
 function Add() {
     $("#route #SubmitUpdate").hide();
     var port_route = new Object();
     port_route.Harbor_Start = $("#route #harbor_start").val();
     port_route.Harbor_End = $("#route #harbor_end").val();
+    port_route.Description = $("#route #description").val();
     console.log(port_route);
     $.ajax({
         url: "/PortRoutes/addPortRoute",

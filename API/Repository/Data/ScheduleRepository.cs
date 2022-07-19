@@ -24,12 +24,11 @@ namespace API.Repository.Data
                  where s.PortRoute_id == port_id
                  select new ScheduleViewVM
                  {
+                     PortRoute_id = p.Id,
                      Id = s.Id,
                      RouteName = p.RouteName,
                      Session = s.Session,
                      Time = s.Time.ToString()
-
-
                  }).ToList());
 
             return data;
@@ -40,10 +39,21 @@ namespace API.Repository.Data
             Schedule schedule = new Schedule();
             schedule.Time = TimeSpan.Parse(scheduleVM.Time);
             schedule.Session = scheduleVM.Session;
-            schedule.PortRoute_id = scheduleVM.RouteName;
+            schedule.PortRoute_id = scheduleVM.PortRoute_id;
             context.Schedules.Add(schedule);
             return context.SaveChanges();
         }
+
+        //public int AddSchedule(ScheduleVM scheduleVM)
+        //{
+        //    Schedule schedule = new Schedule();
+        //    schedule.Time = TimeSpan.Parse(scheduleVM.Time);
+        //    schedule.Session = scheduleVM.Session;
+        //    schedule.PortRoute_id = scheduleVM.PortRoute_id;
+        //    context.Schedules.Add(schedule);
+        //    context.SaveChanges();
+        //    return  1;
+        //}
 
 
     }

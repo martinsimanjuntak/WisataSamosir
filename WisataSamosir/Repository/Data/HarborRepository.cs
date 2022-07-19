@@ -29,6 +29,22 @@ namespace WisataSamosir.Repository.Data
                 BaseAddress = new Uri(address.link)
             };
         }
-       
+        public HttpStatusCode Update(Harbor entity)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync(request+ "UpdateHarbor", content).Result;
+            return result.StatusCode;
+        }
+        public async Task<List<Harbor>> GetHarborUser(int id)
+        {
+            List<Harbor> entity = null;
+
+            using (var response = await httpClient.GetAsync(request + "GetHarborUser/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entity = JsonConvert.DeserializeObject<List<Harbor>>(apiResponse);
+            }
+            return entity;
+        }
     }
 }

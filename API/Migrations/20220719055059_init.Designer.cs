@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220324053930_init")]
+    [Migration("20220719055059_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,14 +27,31 @@ namespace API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnName("email")
                         .HasColumnType("varchar(25) CHARACTER SET utf8mb4")
                         .HasMaxLength(25);
 
+                    b.Property<string>("MitraName")
+                        .HasColumnName("mitra_name")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("varchar(25) CHARACTER SET utf8mb4")
+                        .HasMaxLength(25);
+
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnName("password")
                         .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
                         .HasMaxLength(100);
+
+                    b.Property<string>("Phone")
+                        .HasColumnName("phone")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("Role_id")
                         .HasColumnType("int");
@@ -43,6 +60,7 @@ namespace API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
+                        .IsRequired()
                         .HasColumnName("username")
                         .HasColumnType("varchar(25) CHARACTER SET utf8mb4")
                         .HasMaxLength(25);
@@ -56,6 +74,23 @@ namespace API.Migrations
                     b.ToTable("tb_account");
                 });
 
+            modelBuilder.Entity("API.Model.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("enum('SocialCulture','NaturalTourism', 'Food', 'Hotel')");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tb_m_category");
+                });
+
             modelBuilder.Entity("API.Model.Harbor", b =>
                 {
                     b.Property<int>("Id")
@@ -63,26 +98,54 @@ namespace API.Migrations
                         .HasColumnName("id")
                         .HasColumnType("int");
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnName("description")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Harbor_Name")
-                        .HasColumnName("pelabuhan_name")
+                    b.Property<string>("Harbor_Activity")
+                        .HasColumnName("harbor_activity")
                         .HasColumnType("varchar(25) CHARACTER SET utf8mb4")
                         .HasMaxLength(25);
 
+                    b.Property<string>("Harbor_Name")
+                        .HasColumnName("harbor_name")
+                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Harbor_type")
+                        .HasColumnName("harbor_type")
+                        .HasColumnType("varchar(25) CHARACTER SET utf8mb4")
+                        .HasMaxLength(25);
+
+                    b.Property<double>("Latitude")
+                        .HasColumnName("latitude")
+                        .HasColumnType("double");
+
                     b.Property<string>("Location")
                         .HasColumnName("location")
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
-                    b.Property<int?>("Route_idId")
+                    b.Property<double>("Longitude")
+                        .HasColumnName("longitude")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Phone")
+                        .HasColumnName("phone")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("Route_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("id_account")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Route_idId");
+                    b.HasIndex("id_account");
 
                     b.ToTable("tb_harbor");
                 });
@@ -93,6 +156,10 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("Harbor_end")
                         .HasColumnName("harbor_end")
@@ -106,7 +173,8 @@ namespace API.Migrations
 
                     b.Property<string>("RouteName")
                         .HasColumnName("route_name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4")
+                        .HasMaxLength(250);
 
                     b.HasKey("Id");
 
@@ -181,27 +249,45 @@ namespace API.Migrations
                         .HasColumnName("id")
                         .HasColumnType("int");
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnName("description")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnName("image")
+                        .HasColumnType("longblob");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnName("latitude")
+                        .HasColumnType("double");
 
                     b.Property<string>("Location")
                         .HasColumnName("location")
                         .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
                         .HasMaxLength(100);
 
+                    b.Property<double>("Longitude")
+                        .HasColumnName("longitude")
+                        .HasColumnType("double");
+
                     b.Property<string>("Name")
                         .HasColumnName("name")
-                        .HasColumnType("varchar(25) CHARACTER SET utf8mb4")
-                        .HasMaxLength(25);
-
-                    b.Property<byte[]>("Picture")
-                        .HasColumnName("picture")
-                        .HasColumnType("longblob");
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
-                    b.ToTable("tb_tourist_Actraction");
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("tb_m_destination");
                 });
 
             modelBuilder.Entity("API.Model.Account", b =>
@@ -221,9 +307,9 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Model.Harbor", b =>
                 {
-                    b.HasOne("API.Model.PortRoute", "Route_id")
+                    b.HasOne("API.Model.Account", "Account")
                         .WithMany("Harbors")
-                        .HasForeignKey("Route_idId");
+                        .HasForeignKey("id_account");
                 });
 
             modelBuilder.Entity("API.Model.Schedule", b =>
@@ -231,6 +317,21 @@ namespace API.Migrations
                     b.HasOne("API.Model.PortRoute", "PortRoute")
                         .WithMany("Schedules")
                         .HasForeignKey("PortRoute_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Model.TouristAttraction", b =>
+                {
+                    b.HasOne("API.Model.Account", "Account")
+                        .WithMany("TouristAttractions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Model.Category", "Category")
+                        .WithMany("TouristAttractions")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,9 +1,7 @@
 ﻿
-@{
-    ViewData["Title"] = "Login Page";
-    Layout = null;
-
-}
+@{ ViewData["Title"] = "Login Page";
+                Layout = null; }
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,6 +31,7 @@
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
+            <p style="color:red; padding-bottom:10px !important">@HttpContextAccessor.HttpContext.Request.Query["err"]</p>
 
             <div class="col-xl-6 col-lg-12 col-md-9 mt-5">
 
@@ -61,7 +60,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
 
             </div>
 

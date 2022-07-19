@@ -13,9 +13,11 @@
     <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    @RenderSection("css", required: false)
     <link rel="stylesheet" href="/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js" integrity="sha256-sq9BgeqJAlCLfjfAO+2diFGt5O8aIYNrds+yhlpFnvg=" crossorigin="anonymous"></script>
-
 </head>
 
 <body id="page-top">
@@ -25,9 +27,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center mt-5" href="index.html">
                 @*<div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>*@
+                        <i class="fas fa-laugh-wink"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>*@
             </a>
 
             <!-- Divider -->
@@ -40,34 +42,33 @@
             </li>
             @if (User.IsInRole("SUPERADMIN"))
             {
-                <li class="nav-item active">
-                    <a class="nav-link" href="/accounts">
-                        <i class="fas fa-user-alt"></i>
-                        <span>Accounts</span>
-                    </a>
-                </li>
+<li class="nav-item active">
+    <a class="nav-link" href="/accounts">
+        <i class="fas fa-user-alt"></i>
+        <span>Accounts</span>
+    </a>
+</li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/touristattractions">
                         <i class="fas fa-info-circle"></i>
                         <span>Travel Information</span>
                     </a>
-                </li>
+                </li>}
+            @if (User.IsInRole("ADMIN"))
+            {
+<li class="nav-item active">
+    <a class="nav-link" href="/harbors">
+        <i class="fas fa-route"></i>
+        <span>Harbor</span>
+    </a>
+</li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/PortRoutes">
                         <i class="fas fa-route"></i>
                         <span>Route</span>
                     </a>
                 </li>
-                }
-            @if (User.IsInRole("ADMIN"))
-            {
-                <li class="nav-item active">
-                    <a class="nav-link" href="/harbors">
-                        <i class="fas fa-route"></i>
-                        <span>Harbor</span>
-                    </a>
-                </li>
-            }
+}
 
 
 
@@ -138,10 +139,12 @@
         </div>
     </div>
 
-    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    @*<script src="/assets/vendor/jquery/jquery.min.js"></script>*@
     <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/assets/js/sb-admin-2.min.js"></script>
     <script src="/assets/vendor/chart.js/Chart.min.js"></script>
     <script src="/assets/js/demo/chart-area-demo.js"></script>

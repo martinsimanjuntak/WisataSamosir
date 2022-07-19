@@ -7,8 +7,8 @@ namespace API.ViewModel
 {
     public class RouteVM
     {
-        public string Session{ get; set; }
-        public string RouteName{ get; set; }
+        public string Session { get; set; }
+        //public string RouteName{ get; set; }
         public TimeSpan Time { get; set; }  
     }
 }

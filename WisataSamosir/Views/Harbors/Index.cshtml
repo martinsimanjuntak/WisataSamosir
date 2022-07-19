@@ -23,7 +23,7 @@
 
 <div class="modal" tabindex="-1" role="dialog" id="harbor">
     <div class="modal-dialog modal-lg" role="document">
-        <form id="form_harbor">
+        <form id="form_session" class="needs-validation" novalidate>
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Modal title</h5>
@@ -36,8 +36,9 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Name" />
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Name" required />
                                 <input type="hidden" class="form-control" name="id" id="id" />
+                                <input type="hidden" name="id_account" id="id_account" value="@ViewBag.Id" />
                                 <div class="invalid-feedback" id="message_name">
 
                                 </div>
@@ -46,8 +47,35 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>location</label>
-                                <input type="text" class="form-control" name="location" id="location" placeholder="Location" />
+                                <input type="text" class="form-control" name="location" id="location" placeholder="Location" required />
                                 <div class="invalid-feedback" id="message_location">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" required />
+                                <div class="invalid-feedback" id="message_phone">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Harbor Type</label>
+                                <input type="text" class="form-control" name="harbor_type" id="harbor_type" placeholder="Harbor Type" required />
+                                <div class="invalid-feedback" id="message_harbor_type">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Harbor Activity</label>
+                                <input type="text" class="form-control" name="harbor_activity" id="harbor_activity" placeholder="Harbor Activity" required />
+                                <div class="invalid-feedback" id="message_harbor_activity">
 
                                 </div>
                             </div>
@@ -55,7 +83,7 @@
                         <div class="col-md-12 password">
                             <div class="form-group">
                                 <label>Description</label>
-                                <input type="text" class="form-control" name="description" id="description" placeholder="Description" />
+                                <input type="text" class="form-control" name="description" id="description" placeholder="Description"  required/>
                                 <div class="invalid-feedback" id="message_description">
 
                                 </div>
@@ -64,8 +92,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" id="SubmitInsert" onclick="SubmitAddHarbor()">Add Harbor</button>
-                    <button class="btn btn-primary" type="button" id="SubmitUpdate" onclick="SubmitUpdateHarbor()">Update</button>
+                    <button class="btn btn-primary" type="submit" id="SubmitInsert">Add Harbor</button>
+                    <button class="btn btn-primary" type="submit" id="SubmitUpdate" onclick="SubmitUpdateHarbor()">Update</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

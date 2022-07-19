@@ -1,4 +1,26 @@
-﻿var table = null;
+﻿(function () {
+    'use strict';
+    window.addEventListener('load', function () {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                 
+                }
+                if (form.checkValidity() === true) {
+                    event.preventDefault();
+                    Add();
+                }
+                form.classList.add('was-validated');
+              
+            }, false);
+        });
+    }, false);
+})();
+
+var table = null;
 $(document).ready(function () {
     table =  $('#dataTable').DataTable({
         "ajax": {
@@ -83,12 +105,15 @@ const DeleteAccount = (account_id) => {
 }
 
 const DetailAccount = (account_id) => {
+    console.log("berhasil");
     $.ajax({
         url: '/accounts/GetDetail/' + account_id
     }).done(data => {
-        console.log(data.role);
         $("#account #SubmitInsert").hide()
         $("#account #id").val(data.id)
+        $("#account #name").val(data.name);
+        $("#account #mitra_name").val(data.mitraName);
+        $("#account #phone").val(data.phone);
         $("#account #username").val(data.username)
         $("#account #email").val(data.email)
         $("#account #password").val(data.password).hide();
@@ -116,9 +141,11 @@ function ModalAddAccount() {
 }
 function Update() {
     $("#account #SubmitUpdate").show()
-
     var account = new Object();
-    account.id = $("#account #id").val();;
+    account.id = $("#account #id").val();
+    account.Name = $("#account #name").val();
+    account.MitraName = $("#account #mitra_name").val();
+    account.Phone = $("#account #phone").val();
     account.Username = $("#account #username").val();
     account.Email = $("#account #email").val();
     account.Password = $("#account #password").val();
@@ -153,12 +180,14 @@ function Update() {
 function Add() {
     $("#account #SubmitUpdate").hide();
     var account = new Object();
+    account.Name = $("#account #name").val();
+    account.Mitra_Name = $("#account #mitra_name").val();
+    account.Phone = $("#account #phone").val();
     account.Username = $("#account #username").val();
     account.Email = $("#account #email").val();
     account.Password = $("#account #password").val();
     account.Role = $("#account #role").val();
     account.Status = $("#account #status").val()
-    console.log(account);
     $.ajax({
         url: "/Accounts/AddAccount",
         data: account,
@@ -171,7 +200,7 @@ function Add() {
                 'Your data has been saved!',
                 'success'
             )
-            $("#myModal").modal("toggle").hide();
+            $("#account").modal("toggle").hide();
             table.ajax.reload();
         } else if (result == 400) {
             Swal.fire(
@@ -188,7 +217,7 @@ function Add() {
 function SubmitUpdateAccount() {
     Update();
 }
-function SubmitAddAccount() {
-    Add();
-}
+//function SubmitAddAccount() {
+//    Add();
+//}
 

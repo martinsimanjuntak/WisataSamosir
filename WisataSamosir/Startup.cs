@@ -1,4 +1,5 @@
 using API.Context;
+using Castle.Core.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -42,7 +44,7 @@ namespace WisataSamosir
             services.AddScoped<Address>();
             services.AddDbContext<MyContext>();
             services.AddScoped<PortRouteRepository>();
-
+            services.AddScoped<CategoryRepository>();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -51,7 +53,6 @@ namespace WisataSamosir
             {
                 options.AddPolicy("AllowAnyOrigin", builder =>
                 {
-                    // Allow "Access-Control-Allow-Origin: *" header
                     builder.AllowAnyOrigin();
                 });
             });
@@ -75,6 +76,10 @@ namespace WisataSamosir
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors("AllowAnyOrigin");
+            var cultureInfo = new CultureInfo("en-US");
+            cultureInfo.NumberFormat.CurrencySymbol = "€";
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -88,6 +93,24 @@ namespace WisataSamosir
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseStatusCodePages(async context =>
+            {
+                var request = context.HttpContext.Request;
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode.Equals((int)HttpStatusCode.Unauthorized))
+                {
+                    response.Redirect("/unauthorized");
+                }
+                else if (response.StatusCode.Equals((int)HttpStatusCode.NotFound))
+                {
+                    response.Redirect("/notfound");
+                }
+                else if (response.StatusCode.Equals((int)HttpStatusCode.Forbidden))
+                {
+                    response.Redirect("/forbidden");
+                }
+            });
             app.UseSession();
             app.Use(async (context, next) =>
             {

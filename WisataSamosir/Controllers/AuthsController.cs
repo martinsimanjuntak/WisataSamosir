@@ -38,14 +38,39 @@ namespace WisataSamosir.Controllers
 
             if (token == null)
             {
-                return RedirectToAction("Login", "Auths", new { err = jwtToken.Message });
+                return RedirectToAction("Index", "Auths", new { err = jwtToken.Message });
             }
+            else
+            {
             HttpContext.Session.SetString("JWToken", token);
             string Roles = JWTHandler.GetClaim(token, "role");
+            string Id = JWTHandler.GetClaim(token, "id");
             HttpContext.Session.SetString("role", Roles);
+            HttpContext.Session.SetString("id", Id);
             return RedirectToAction("Index", "Dashboards");
+            }
+            
+        }
+        [HttpGet("Unauthorized/")]
+        public IActionResult Unauthorized()
+        {
+            return View("401");
         }
 
+        [HttpGet("Notfound/")]
+        public IActionResult Notfound()
+        {
+            return View("404");
+        }
+        [HttpGet("Forbidden/")]
+        public IActionResult Forbidden()
+        {
+            return View("403");
+        }
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
         [Authorize]
         [HttpGet("Logout/")]
         public IActionResult Logout()

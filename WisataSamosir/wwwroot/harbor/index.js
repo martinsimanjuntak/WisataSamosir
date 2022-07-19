@@ -1,8 +1,30 @@
-﻿var table = null;
+﻿(function () {
+    'use strict';
+    window.addEventListener('load', function () {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                }
+                if (form.checkValidity() === true) {
+                    event.preventDefault();
+                    SubmitAddHarbor();
+                }
+                form.classList.add('was-validated');
+
+            }, false);
+        });
+    }, false);
+})();
+var table = null;
+var id =parseInt($("#harbor #id_account").val());
 $(document).ready(function () {
     table = $('#dataTable').DataTable({
         "ajax": {
-            "url": '/harbors/getAll',
+            "url": '/harbors/GetHarborUser/' + id,
             "datatype": "json",
             "dataSrc": ""
         },
@@ -24,7 +46,7 @@ $(document).ready(function () {
             },
             {
                 "render": function (data, type, full, row) {
-                    return `<a href="#" class="fas fa-pencil-alt text-warning mr-3" title="Borrow" onclick="DetailAccount(${full.id})"></a>
+                    return `<a href="#" class="fas fa-pencil-alt text-warning mr-3" title="Borrow" onclick="DetailHarbor(${full.id})"></a>
                             <a href="#" class="fas fa-trash-alt mr-3 text-danger" title="Borrow"onClick="DeleteHarbor(${full.id})"></a>`
                 }
             }
@@ -64,33 +86,39 @@ const DeleteHarbor = (harbor_id) => {
     })
 }
 
-const DetailAccount = (harbor_id) => {
+const DetailHarbor = (harbor_id) => {
+    $("#harbor #SubmitInsert").hide()
+    $("#harbor #SubmitUpdate").show()
     $.ajax({
         url: '/harbors/Get/' + harbor_id
     }).done(data => {
         console.log(data);
-        $("#harbor #SubmitInsert").hide()
         $("#harbor #id").val(data.id)
         $("#harbor #name").val(data.harbor_Name)
         $("#harbor #location").val(data.location)
         $("#harbor #description").val(data.description)
+        $("#harbor #phone").val(data.phone);
+        $("#harbor #harbor_type").val(data.harbor_type);
+        $("#harbor #harbor_activity").val(data.harbor_activity);
         $("#harbor").modal("show");
     });
 }
-function ModalAddHarbor() {
-    $("#harbor #SubmitUpdate").hide()
 
-    $("#harbor").modal("show");
-
-}
-function Update() {
+function Update(lat, lng) {
     var harbor = new Object();
     harbor.id = $("#harbor #id").val();;
-    harbor.name = $("#harbor #name").val();
+    harbor.harbor_Name = $("#harbor #name").val();
     harbor.description = $("#harbor #description").val();
-    harbor.location= $("#harbor #location").val();
+    harbor.location = $("#harbor #location").val();
+    harbor.phone = $("#harbor #phone").val();
+    harbor.harbor_type = $("#harbor #harbor_type").val();
+    harbor.harbor_activity = $("#harbor #harbor_activity").val();
+    harbor.latitude = lat;
+    harbor.longitude = lng;
+    harbor.AccountId = parseInt($("#harbor #id_account").val());
+    console.log(harbor);
     $.ajax({
-        url: "/Harbors/Put",
+        url: "/Harbors/UpdateHarbor/",
         data: harbor,
         type: 'PUT'
     }).then((result) => {
@@ -114,43 +142,35 @@ function Update() {
         console.log(error);
     })
 }
-
-$.ajax({
-    url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + "medan" + '&key=AIzaSyBF2ZTrnHd5ko_mQitE9kWiy2TWe-1X-3g',
-    type: 'get',
-    success: function (data) {
-        if (data.status === 'OK') {
-            // Get the lat/lng from the response
-            let lat = data.results[0].geometry.location.lat;
-            let lng = data.results[0].geometry.location.lng;
-        }
-    },
-    error: function (msg) {
-        // handle error
-    }
-});
-function Add() {
+function Add(lat, lng) {
     $("#harbor #SubmitUpdate").hide();
     var harbor = new Object();
     harbor.harbor_name = $("#harbor #name").val();
     harbor.location = $("#harbor #location").val();
     harbor.description = $("#harbor #description").val();
-     
+    harbor.phone = $("#harbor #phone").val();
+    harbor.harbor_type = $("#harbor #harbor_type").val();
+    harbor.harbor_activity = $("#harbor #harbor_activity").val();
+    harbor.latitude = lat;
+    harbor.longitude = lng;
+    harbor.AccountId = parseInt($("#harbor #id_account").val());
+    console.log(harbor);
     $.ajax({
         url: "/harbors/Post",
-        data: JSON.stringify(harbor),
+        data: harbor,
         type: 'POST'
     }).then((result) => {
         
         if (result == 200) {
             console.log(JSON.stringify(harbor));
+            $('#harbor').modal('toggle');
             Swal.fire(
                 'Good job!',
                 'Your data has been saved!',
                 'success'
             )
 
-            $("#myModal").modal("toggle");
+           
             table.ajax.reload();
         } else if (result == 400) {
             Swal.fire(
@@ -165,11 +185,48 @@ function Add() {
 }
 
 function SubmitUpdateHarbor() {
-    Update();
+    var v_location = "";
+    v_location = $("#harbor #location").val();
+    $.ajax({
+        url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + v_location + '&key=AIzaSyA_tnjz2VftxDKrPRVudR-p5bM4Tj_pvEI',
+        type: 'get',
+        success: function (data) {
+            if (data.status === 'OK') {
+                var lat = data.results[0].geometry.location.lat;
+                var lng = data.results[0].geometry.location.lng;
+                Update(lat, lng);
+
+            }
+        },
+        error: function (msg) {
+        }
+    });
+   
 }
+function ModalAddHarbor() {
+    console.log("Martin");
+    $("#harbor #SubmitUpdate").hide()
+
+    $("#harbor").modal("show");
+
+}
+
 function SubmitAddHarbor() {
-    Add();
+    var v_location = "";
+    v_location = $("#harbor #location").val();
+    $.ajax({
+        url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + v_location + '&key=AIzaSyA_tnjz2VftxDKrPRVudR-p5bM4Tj_pvEI',
+        type: 'get',
+        success: function (data) {
+            if (data.status === 'OK') {
+                // Get the lat/lng from the response
+                var lat = data.results[0].geometry.location.lat;
+                var lng = data.results[0].geometry.location.lng;
+                Add(lat, lng);
+
+            }
+        },
+        error: function (msg) {
+        }
+    });
 }
-
-
-

@@ -1,5 +1,6 @@
 ﻿using API.Model;
 using API.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,14 +21,26 @@ namespace WisataSamosir.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            ViewBag.Roles = HttpContext.Session.GetString("role");
+            ViewBag.JWToken = HttpContext.Session.GetString("JWToken");
+            ViewBag.Id = HttpContext.Session.GetString("id");
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Auths");
         }
         public IActionResult Schedule(int id)
         {
             ViewBag.id = id;
             return View("Schedule");
         }
-
+        [HttpGet("[controller]/GetPortRouteUser/{id}")]
+        public async Task<ActionResult<Harbor>> GetPortRouteUser(int id)
+        {
+            var result = await portRouteRepository.GetPortRouteUser(id);
+            return Json(result);
+        }
         [HttpPost]
         public JsonResult AddPortRoute(PortRouteVM portRouteVM)
         {

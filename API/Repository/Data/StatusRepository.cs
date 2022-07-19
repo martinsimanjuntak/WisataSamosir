@@ -9,8 +9,12 @@ namespace API.Repository.Data
 {
     public class StatusRepository : GeneralRepository<Status, MyContext, int>
     {
+        private readonly MyContext context;
         public StatusRepository(MyContext myContext) : base(myContext)
         {
+            this.context = myContext;
         }
+
+        
     }
 }

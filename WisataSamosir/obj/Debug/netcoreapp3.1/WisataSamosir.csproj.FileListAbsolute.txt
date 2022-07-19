@@ -83,7 +83,6 @@ D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\bin\Debug\netcoreapp3.1\API
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\bin\Debug\netcoreapp3.1\API.dll
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\bin\Debug\netcoreapp3.1\API.pdb
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Accounts\Index.cshtml.g.cs
-D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\WisataSamosir.MvcApplicationPartsAssemblyInfo.cs
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\TouristAttractions\Index.cshtml.g.cs
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Harbors\Index.cshtml.g.cs
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\PortRoutes\Index.cshtml.g.cs
@@ -92,3 +91,9 @@ D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Raz
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Dashboards\Index.cshtml.g.cs
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Auths\Index.cshtml.g.cs
 D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Auths\401.cshtml.g.cs
+D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ErrorPage.cshtml.g.cs
+D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Auths\404.cshtml.g.cs
+D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Auths\403.cshtml.g.cs
+D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layoutpage.cshtml.g.cs
+D:\KULIAH\Semester 8\TA2\WisataSamosir\WisataSamosir\obj\Debug\netcoreapp3.1\WisataSamosir.MvcApplicationPartsAssemblyInfo.cs

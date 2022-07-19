@@ -36,6 +36,17 @@ namespace API.Context
              .HasMany(a => a.Schedules)
              .WithOne(a => a.PortRoute);
 
+            modelBuilder.Entity<Account>()
+            .HasMany(a => a.Harbors)
+            .WithOne(a => a.Account);
+
+            modelBuilder.Entity<Account>()
+            .HasMany(a => a.TouristAttractions)
+            .WithOne(a => a.Account);
+
+            modelBuilder.Entity<Category>()
+           .HasMany(a => a.TouristAttractions)
+           .WithOne(a => a.Category);
 
         }
     }

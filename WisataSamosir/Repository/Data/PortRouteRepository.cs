@@ -36,5 +36,15 @@ namespace WisataSamosir.Repository.Data
             return result.StatusCode;
 
         }
+        public async Task<List<PortRoute>> GetPortRouteUser(int id)
+        {
+            List<PortRoute> entity = null;
+            using (var response = await httpClient.GetAsync(request + "GetPortRouteUser/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entity = JsonConvert.DeserializeObject<List<PortRoute>>(apiResponse);
+            }
+            return entity;
+        }
     }
 }

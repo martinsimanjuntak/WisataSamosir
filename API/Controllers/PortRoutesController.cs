@@ -21,7 +21,6 @@ namespace API.Controllers
         {
             this.portRouteRepository = repository;
         }
-
         [HttpPost("AddPortRoute")]
         public ActionResult AddPortRoute(PortRouteVM portRoute)
         {
@@ -30,7 +29,6 @@ namespace API.Controllers
                 portRouteRepository.AddPortRoute(portRoute);
                 return Ok(new
                 {
-
                     statusCode = HttpStatusCode.OK,
                     message = "Success"
                 });
@@ -44,10 +42,29 @@ namespace API.Controllers
                 });
             }
         }
-        [HttpGet("getAllRoute")]
-        public async Task<ActionResult<RouteVM>> GetAllRoute()
+        [HttpGet("getAllRoute/{id}")]
+        public async Task<ActionResult<RouteVM>> GetAllRoute(int id)
         {
-            var get = await portRouteRepository.GetRoute();
+            var get = await portRouteRepository.GetRoute(id);                                             
+            return Ok(get);
+        }
+
+        [HttpGet("GetHarborRoute/{id}")]
+        public async Task<ActionResult<RouteVM>> GetHarborRoute(int id)
+        {
+            var get = await portRouteRepository.GetHarborRoute(id);
+            return Ok(get);
+        }
+        [HttpGet("GetPortRouteUser/{id}")]
+        public async Task<ActionResult<PortRoute>> GetPortRouteUser(int id)
+        {
+            var get = await portRouteRepository.GetPortRouteUser(id);
+            return Ok(get);
+        }
+        [HttpGet("GetHarborPortRoute/{id}")]
+        public async Task<ActionResult<PortRoute>> GetHarborPortRoute(int id)
+        {
+            var get = await portRouteRepository.GetHarborPortRoute(id);
             return Ok(get);
         }
     }

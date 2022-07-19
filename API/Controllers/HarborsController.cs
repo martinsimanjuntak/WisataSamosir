@@ -14,9 +14,23 @@ namespace API.Controllers
     [ApiController]
     public class HarborsController : BaseController<Harbor, HarborRepository, int>
     {
-        //private readonly HarborRepository harborRepository;
+        private readonly HarborRepository harborRepository;
         public HarborsController(HarborRepository repository) : base(repository)
         {
+            this.harborRepository = repository;
+
+        }
+        [HttpPut("UpdateHarbor/{id}")]
+        public async Task<ActionResult> UpdateHarbor(Harbor entity)
+        {
+            await harborRepository.Put(entity);
+            return Ok();
+        }
+        [HttpGet("GetHarborUser/{id}")]
+        public async Task<ActionResult<Harbor>> GetAllRoute(int id)
+        {
+            var get = await harborRepository.GetHarborUser(id);
+            return Ok(get);
         }
     }
 }

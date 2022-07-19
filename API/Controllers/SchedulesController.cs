@@ -21,7 +21,7 @@ namespace API.Controllers
             this.scheduleRepository  = repository;
         }
         [HttpGet("GetSchedule/{id}")]
-        public async Task<ActionResult<ScheduleVM>> GetAccount(int id)
+        public async Task<ActionResult<ScheduleVM>> GetSchedule(int id)
         {
             var get = await scheduleRepository.GetSchedule(id);
             return Ok(get);
@@ -31,6 +31,24 @@ namespace API.Controllers
         {
             scheduleRepository.AddSchedule(entity);
             return Ok(entity);
+        }
+
+        [HttpDelete("DeleteSchedule/{id}")]
+        public async Task<ActionResult<Schedule>> DeleteSchedule(int id)
+        {
+            var delete = await scheduleRepository.Delete(id);
+            if (delete == null)
+            {
+                return NotFound();
+            }
+            return delete;
+        }
+
+        [HttpGet("GetSession/{id}")]
+        public async Task<ActionResult<Schedule>> GetSession(int id)
+        {
+            var get = await scheduleRepository.Get(id);
+            return (get != null) ? (ActionResult)Ok(get) : NotFound();
         }
     }
 }

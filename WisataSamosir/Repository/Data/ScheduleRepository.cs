@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using WisataSamosir.Base.Urls;
 
@@ -37,6 +39,21 @@ namespace WisataSamosir.Repository.Data
                 entities = JsonConvert.DeserializeObject<List<ScheduleViewVM>>(apiResponse);
             }
             return entities;
+        }
+
+
+        public HttpStatusCode AddSchedule(ScheduleVM scheduleVM)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(scheduleVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync(request + "AddSchedule/", content).Result;
+            return result.StatusCode;
+
+        }
+
+        public HttpStatusCode DeleteSession(int id)
+        {
+            var result = httpClient.DeleteAsync(request + "DeleteSchedule/" +id).Result;
+            return result.StatusCode;
         }
     }
 }

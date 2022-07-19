@@ -22,9 +22,11 @@
     </table>
 </div>
 
+
 <div class="modal" tabindex="-1" role="dialog" id="account">
     <div class="modal-dialog modal-lg" role="document">
-        <form id="form_account">
+
+        <form id="form_account" class="needs-validation" novalidate>
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Modal title</h5>
@@ -36,9 +38,36 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Name" required />
+                                <input type="hidden" class="form-control" name="id" id="id" />
+                                <div class="invalid-feedback" id="message_name">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Mitra Name</label>
+                                <input type="text" class="form-control" name="mitra_name" id="mitra_name" placeholder="Mitra Name" required/>
+                                <div class="invalid-feedback" id="message_mitra_name">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" required/>
+                                <div class="invalid-feedback" id="message_phone">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label>Username</label>
-                                <input type="text" class="form-control" name="username" id="username" placeholder="Username" />
-                                <input type="hidden" class="form-control" name="id" id="id"/>
+                                <input type="text" class="form-control" name="username" id="username" placeholder="Username" required />
                                 <div class="invalid-feedback" id="message_username">
 
                                 </div>
@@ -47,16 +76,16 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="text" class="form-control" name="email" id="email" placeholder="Email" />
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Email" required/>
                                 <div class="invalid-feedback" id="message_email">
 
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 password" >
+                        <div class="col-md-12 password">
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required />
                                 <div class="invalid-feedback" id="message_password">
 
                                 </div>
@@ -65,7 +94,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Role</label>
-                                <select class="form-control" id="role">
+                                <select class="form-control" id="role" required>
                                     <option selected disabled>...</option>
                                     <option value="2">Admin</option>
                                     <option value="1">SuperAdmin</option>
@@ -75,7 +104,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Status</label>
-                                <select class="form-control" id="status">
+                                <select class="form-control" id="status" required>
                                     <option selected disabled>...</option>
                                     <option value="1">Active</option>
                                     <option value="2">Expired</option>
@@ -85,8 +114,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" id="SubmitInsert" onclick="SubmitAddAccount()">Add Account</button>
-                    <button class="btn btn-primary" type="button" id="SubmitUpdate" onclick="SubmitUpdateAccount()">Update</button>
+                    <button class="btn btn-primary" type="submit" id="SubmitInsert" onclick="SubmitAddAccount()">Add Account</button>
+                    <button class="btn btn-primary" type="submit" id="SubmitUpdate" onclick="SubmitUpdateAccount()">Update</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

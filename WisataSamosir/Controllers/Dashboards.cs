@@ -20,7 +20,8 @@ namespace WisataSamosir.Controllers
                 return View();
 
             }
-            return View("Index","Auths");
+            //return View();
+            return RedirectToAction("Index","Auths");
         }
     }
 }

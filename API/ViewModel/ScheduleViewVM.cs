@@ -13,5 +13,6 @@ namespace API.ViewModel
         public string Session { get; set; }
         public string Time { get; set; }
         public string RouteName{ get; set; }
+        public int PortRoute_id { get; set; }
     }
 }

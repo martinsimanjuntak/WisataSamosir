@@ -29,12 +29,40 @@ namespace WisataSamosir.Repository.Data
                 BaseAddress = new Uri(address.link)
             };
         }
-        public HttpStatusCode AddTouristAttraction(PortRoute portRoute)
+        public HttpStatusCode AddTouristAttraction(TouristAttraction entity)
         {
-            StringContent content = new StringContent(JsonConvert.SerializeObject(portRoute), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync(request + "post/", content).Result;
+           
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync(request + "AddTouristAttractions/", content).Result;
             return result.StatusCode;
+        }
+        public HttpStatusCode UpdateTouristAttractions(TouristAttraction entity)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync(request+ "Put", content).Result;
+            return result.StatusCode;
+        }
+        public async Task<List<TouristAttraction>> GetTouristAttraction()
+        {
+            List<TouristAttraction> entities = new List<TouristAttraction>();
 
+            using (var response = await httpClient.GetAsync(request + "GetTouristAttraction"))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<TouristAttraction>>(apiResponse);
+            }
+            return entities;
+        }
+        public async Task<List<TouristAttraction>> GetFoodDestination()
+        {
+            List<TouristAttraction> entities = new List<TouristAttraction>();
+
+            using (var response = await httpClient.GetAsync(request + "GetFoodDestination"))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<TouristAttraction>>(apiResponse);
+            }
+            return entities;
         }
     }
 }

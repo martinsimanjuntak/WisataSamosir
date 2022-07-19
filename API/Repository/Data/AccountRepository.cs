@@ -28,6 +28,8 @@ namespace API.Repository.Data
                             Username = a.Username,
                             Email = a.Email,
                             Password = a.Password,
+                            Phone = a.Phone,
+                            MitraName = a.MitraName,
                             Role = r.Role_Name.ToString(),
                             Status = s.Status_Name.ToString()
 
@@ -39,9 +41,7 @@ namespace API.Repository.Data
         }
         public int Register(AccountVM accountVM)
         {
-
             Account account = new Account();
-
             account.Email = accountVM.Email;
             var checkEmail = context.Accounts.Where(e => e.Email == accountVM.Email).Count();
             if (checkEmail != 0)
@@ -50,7 +50,6 @@ namespace API.Repository.Data
             }
             account.Username = accountVM.Username;
             var checkUsername = context.Accounts.Where(e => e.Username == accountVM.Username).Count();
-
             if (checkUsername != 0)
             {
                 return 200;
@@ -58,28 +57,29 @@ namespace API.Repository.Data
             account.Password = BCrypt.Net.BCrypt.HashPassword(accountVM.Password);
             account.Role_id = accountVM.Role;
             account.Status_id = accountVM.Status;
+            account.Phone = accountVM.Phone;
+            account.Name = accountVM.Name;
+            account.MitraName = accountVM.MitraName;
             context.Accounts.Add(account);
             return context.SaveChanges();
-
         }
         public int Update(AccountVM accountVM)
         {
             var account = context.Accounts.Find(accountVM.Id);
-
             account.Email = accountVM.Email;
             account.Password = account.Password;
             account.Role_id = accountVM.Role;
             account.Status_id = accountVM.Status;
+            account.Phone = accountVM.Phone;
+            account.MitraName = accountVM.MitraName;
             context.Accounts.Update(account);
-            
-                
             return context.SaveChanges();
 
         }
         public async Task<AccountVM> UpdateAccount(AccountVM entity)
         {
             var batch = context.Accounts.Find(entity.Id);
-            batch.UpdateAccount(entity.Username, entity.Email, entity.Password, entity.Role, entity.Status);
+            batch.UpdateAccount(entity.Username, entity.Email, entity.Password, entity.Role, entity.Status, entity.Phone,entity.MitraName);
             await context.SaveChangesAsync();
             return entity;
         }
@@ -110,9 +110,12 @@ namespace API.Repository.Data
                         select new AccountListVM
                         {
                             Id = a.Id,
+                            Name = a.Name,
+                            MitraName = a.MitraName,
                             Username = a.Username,
                             Password = a.Password,
                             Email = a.Email,
+                            Phone = a.Phone,
                             Role = r.Role_Name.ToString(),
                             Status = s.Status_Name.ToString()
                         }

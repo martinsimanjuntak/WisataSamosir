@@ -3,6 +3,7 @@ using API.Context;
 using API.Model;
 using API.Repository.Data;
 using API.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,16 +21,16 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthsController : BaseController<Account, AccountRepository, int>
+    public class AuthsController : BaseController<Account, AuthRepository, int>
     {
-        private readonly AccountRepository accountRepository;
+        private readonly AuthRepository authRepository;
         public IConfiguration _configuration;
         private readonly MyContext myContext;
 
 
-        public AuthsController(AccountRepository repository, IConfiguration _configuration, MyContext context) : base(repository)
+        public AuthsController(AuthRepository repository, IConfiguration _configuration, MyContext context) : base(repository)
         {
-            this.accountRepository = repository;
+            this.authRepository = repository;
             this._configuration = _configuration;
             this.myContext = context;
         }
@@ -37,7 +38,7 @@ namespace API.Controllers
         [HttpPost("Login")]
         public ActionResult Login(LoginVM loginVM)
         {
-            int output = accountRepository.Login(loginVM);
+            int output = authRepository.Login(loginVM);
             if (output == 100)
             {
                 return NotFound(new
@@ -64,7 +65,12 @@ namespace API.Controllers
                             {
                                 Role = ar.Role_Name.ToString()
                             }).FirstOrDefault();
+                var data_id = (from a in myContext.Accounts
+                            where a.Email == $"{loginVM.Email}"
+
+                            select a.Id).FirstOrDefault().ToString();
                 var claim = new List<Claim>();
+                claim.Add(new Claim("id", data_id));
                 claim.Add(new Claim("email", loginVM.Email));
                 claim.Add(new Claim("role", data.Role));
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

@@ -17,6 +17,8 @@ namespace API.Model
         [Column("session"), MaxLength(25)]
         public string Session{ get; set; }
         [Column("time"), MaxLength(25)]
+        [DataType(DataType.Time)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         public TimeSpan Time { get; set; }
         public int PortRoute_id { get; set; }
         [ForeignKey("PortRoute_id")]

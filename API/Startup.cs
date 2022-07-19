@@ -1,5 +1,6 @@
 using API.Context;
 using API.Handler;
+using API.Repository;
 using API.Repository.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer; 
 using Microsoft.AspNetCore.Builder;
@@ -33,28 +34,25 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             services.AddControllersWithViews()
               .AddNewtonsoftJson(options =>
                   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
               );
-            services.AddMvc()
-            .AddNewtonsoftJson();
-
-            services.AddControllers();
-
-            services.AddDbContextPool<MyContext>(
-                options => options.UseLazyLoadingProxies().UseMySql(Configuration.GetConnectionString("MyConnection"),
-                options => options.EnableRetryOnFailure()));
             services.AddScoped<AccountRepository>();
             services.AddScoped<HarborRepository>();
             services.AddScoped<PortRouteRepository>();
+            services.AddScoped<AuthRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<ScheduleRepository>();
             services.AddScoped<StatusRepository>();
             services.AddScoped<TouristAttractionRepository>();
+            services.AddScoped<CategoryRepository>();
             services.AddSwaggerGen();
+
+            services.AddDbContextPool<MyContext>(
+                options => options.UseLazyLoadingProxies().UseMySql(Configuration.GetConnectionString("MyConnection"),
+                options => options.EnableRetryOnFailure()));
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;

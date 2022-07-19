@@ -1,4 +1,5 @@
 ﻿using API.Model;
+using API.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,13 @@ namespace WisataSamosir.Controllers
         {
             this.scheduleRepository = repository;
         }
-
+        [HttpPost]
+        public JsonResult AddSchedule(ScheduleVM entity)
+        {
+            var result = scheduleRepository.AddSchedule(entity);
+            return Json(result);
+        }
+        [HttpGet("[controller]/{id}")]
         public IActionResult Index(int id)
         {
             ViewBag.id = id;
@@ -31,6 +38,13 @@ namespace WisataSamosir.Controllers
         public async Task<JsonResult> GetSchedule (int id)
         {
             var result = await scheduleRepository.GetSchedule(id);
+            return Json(result);
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteSession(int id)
+        {
+            var result = scheduleRepository.Delete(id);
             return Json(result);
         }
     }
